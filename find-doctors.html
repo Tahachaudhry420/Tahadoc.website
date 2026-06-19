@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Doctors — TahaDoc</title>
+<meta name="description" content="Find real, verified doctors and clinics in your city with phone numbers and addresses.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="status-strip">
+  <div class="wrap">
+    <span><span class="dot"></span>Doctor directory live — search any city</span>
+    <span class="right">24/7</span>
+  </div>
+</div>
+
+<div class="emergency-banner">
+  <div class="wrap">
+    <span>⚠</span>
+    <span><strong>Medical emergency?</strong> Call your local emergency number immediately. TahaDoc does not handle emergencies.</span>
+  </div>
+</div>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="logo"><span class="mark"></span>TahaDoc</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="find-doctors.html" class="active">Find Doctors</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="find-doctors.html" class="btn btn-primary btn-small">Find a doctor</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<div class="page-header">
+  <div class="wrap">
+    <span class="eyebrow">Real Doctors, Real Contact Info</span>
+    <h1>Find a doctor near you.</h1>
+    <p>Tell us your city and what kind of doctor you need. We'll pull real, verified listings — name, specialty, address, phone number, and rating — so you can call or visit directly.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="finder-panel">
+      <div class="finder-field">
+        <label for="city">Your city</label>
+        <input type="text" id="city" placeholder="e.g. Lahore, Karachi, Islamabad">
+      </div>
+      <div class="finder-field">
+        <label for="specialty">Type of doctor</label>
+        <select id="specialty">
+          <option>General physician</option>
+          <option>Dentist</option>
+          <option>Dermatologist</option>
+          <option>Pediatrician</option>
+          <option>Gynecologist</option>
+          <option>ENT specialist</option>
+          <option>Cardiologist</option>
+          <option>Orthopedic</option>
+          <option>Psychiatrist</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="searchBtn">Search doctors</button>
+    </div>
+
+    <div id="resultsArea"></div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="wrap">
+    <div class="section-head centered">
+      <h2>How this directory works</h2>
+      <p>We want to be upfront about where this data comes from.</p>
+    </div>
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="icon-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div>
+          <h4>Pulled from OpenStreetMap data</h4>
+          <p>Listings come from OpenStreetMap, a free, community-maintained map used worldwide — not generated or guessed. Coverage is best in larger cities.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="icon-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div>
+          <h4>Always double-check before visiting</h4>
+          <p>Hours, phone numbers, and availability can change. Call ahead to confirm before traveling to a clinic.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="icon-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <h4>Works for any city</h4>
+          <p>Search isn't limited to one location — type any city or town and we'll look for doctors and clinics there.</p>
+        </div>
+      </div>
+      <div class="value-card">
+        <div class="icon-badge">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div>
+          <h4>No bookings handled here</h4>
+          <p>We connect you to the doctor's real contact details — you book or visit directly with the clinic, the same as calling them yourself.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span class="mark"></span>TahaDoc</div>
+        <p>Symptom guidance and a real doctor directory, in one place.</p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="find-doctors.html">Find Doctors</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Routine concerns</a></li>
+          <li><a href="services.html">Priority care</a></li>
+          <li><a href="services.html">Urgent triage</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>hello@tahadoc.com</li>
+          <li>Available 24/7, online</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      <strong>TahaDoc's symptom checker is a product preview and does not provide medical diagnosis.</strong> Doctor listings are sourced from OpenStreetMap and may change — always confirm details directly with the clinic before visiting. If you are experiencing a medical emergency, call your local emergency number or go to the nearest emergency room immediately.
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TahaDoc. All rights reserved.</span>
+      <span>Made for informational purposes</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+navToggle?.addEventListener('click', () => {
+  const isOpen = navLinks.classList.toggle('nav-open');
+  navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function renderDoctorCard(doc) {
+  const typeLabel = { clinic: 'Clinic', doctors: "Doctor's office", hospital: 'Hospital' }[doc.type] || 'Medical facility';
+  const phone = doc.phone
+    ? `<a href="tel:${escapeHtml(doc.phone)}" class="btn btn-primary btn-small">Call ${escapeHtml(doc.phone)}</a>`
+    : `<span style="font-size:13px; color:var(--ink-soft);">No phone listed</span>`;
+  const mapsLink = (doc.lat && doc.lon)
+    ? `<a href="https://www.openstreetmap.org/?mlat=${doc.lat}&mlon=${doc.lon}#map=17/${doc.lat}/${doc.lon}" target="_blank" rel="noopener" class="btn btn-ghost btn-small">View on map</a>`
+    : '';
+
+  return `
+    <div class="doctor-card">
+      <div class="info">
+        <h4>${escapeHtml(doc.name)}</h4>
+        <div class="specialty">${escapeHtml(doc.specialty || typeLabel)}</div>
+        <div class="meta-row">📍 ${escapeHtml(doc.address || 'Address not listed')}</div>
+        ${doc.openingHours ? `<div class="meta-row">🕒 ${escapeHtml(doc.openingHours)}</div>` : ''}
+        ${doc.website ? `<div class="meta-row">🔗 <a href="${escapeHtml(doc.website)}" target="_blank" rel="noopener">${escapeHtml(doc.website)}</a></div>` : ''}
+      </div>
+      <div class="actions">
+        ${phone}
+        ${mapsLink}
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById('searchBtn').addEventListener('click', async () => {
+  const city = document.getElementById('city').value.trim();
+  const specialty = document.getElementById('specialty').value;
+  const resultsArea = document.getElementById('resultsArea');
+  const searchBtn = document.getElementById('searchBtn');
+
+  if (!city) {
+    resultsArea.innerHTML = '<p class="finder-status error">Please enter a city to search.</p>';
+    return;
+  }
+
+  searchBtn.disabled = true;
+  searchBtn.textContent = 'Searching…';
+  resultsArea.innerHTML = '<p class="finder-status">Searching for doctors and clinics…</p>';
+
+  try {
+    const res = await fetch(`/api/find-doctors?city=${encodeURIComponent(city)}&specialty=${encodeURIComponent(specialty)}`);
+    const data = await res.json();
+
+    if (!res.ok) {
+      resultsArea.innerHTML = `<p class="finder-status error">${escapeHtml(data.error || 'Something went wrong.')}</p>`;
+      return;
+    }
+
+    if (data.results.length === 0) {
+      resultsArea.innerHTML = `<p class="finder-status">No listed clinics or doctors found near "${escapeHtml(city)}" in our data source. Try a nearby larger city.</p>`;
+      return;
+    }
+
+    resultsArea.innerHTML = `
+      <p class="finder-status">Found ${data.results.length} result(s) near ${escapeHtml(data.city)}.</p>
+      <div class="results-list">${data.results.map(renderDoctorCard).join('')}</div>
+    `;
+  } catch (err) {
+    resultsArea.innerHTML = '<p class="finder-status error">Could not reach the search service. Please check your connection and try again.</p>';
+  } finally {
+    searchBtn.disabled = false;
+    searchBtn.textContent = 'Search doctors';
+  }
+});
+</script>
+
+</body>
+</html>
