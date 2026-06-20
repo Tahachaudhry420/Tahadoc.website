@@ -140,11 +140,11 @@
 
 <section class="section-alt">
   <div class="wrap">
-    <div class="section-head centered">
+    <div class="section-head centered reveal">
       <h2>What this tool does — and doesn't do</h2>
       <p>Being upfront about limits is part of being useful.</p>
     </div>
-    <div class="limits-list">
+    <div class="limits-list reveal-stagger">
       <div class="item">
         <span>✅</span>
         <span><strong>Suggests a category of doctor</strong> — like "General Physician" or "Dermatologist" — based on simple keyword matching in what you type.</span>
@@ -216,6 +216,18 @@ navToggle?.addEventListener('click', () => {
   const isOpen = navLinks.classList.toggle('nav-open');
   navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 });
+// Scroll-reveal: fade/slide elements in as they enter the viewport.
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => revealObserver.observe(el));
+
 
 // ---------------------------------------------------------------
 // Keyword → specialty map.

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TahaDoc — AI Symptom Guidance & Find Doctors Near You</title>
-<meta name="description" content="TahaDoc helps you understand your symptoms and find real, verified doctors near you with contact details and clinic addresses.">
+<title>Services — TahaDoc</title>
+<meta name="description" content="See the full range of health topics TahaDoc covers, organized by urgency.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -29,10 +29,10 @@
   <nav class="nav">
     <a href="index.html" class="logo"><span class="mark"></span>TahaDoc</a>
     <div class="nav-links">
-      <a href="index.html" class="active">Home</a>
+      <a href="index.html">Home</a>
       <a href="symptom-guide.html">Symptom Guide</a>
       <a href="find-doctors.html">Find Doctors</a>
-      <a href="services.html">Services</a>
+      <a href="services.html" class="active">Services</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </div>
@@ -43,84 +43,97 @@
   </nav>
 </header>
 
-<section class="hero">
+<div class="page-header">
   <div class="wrap">
-    <span class="eyebrow">Symptom Guidance + Real Doctor Directory</span>
-    <h1>Understand your symptoms.<br>Then find a <span class="accent">real doctor</span> nearby.</h1>
-    <p class="lead">TahaDoc walks you through your symptoms in plain language, then connects you to actual, verified doctors in your city — with their clinic address and phone number.</p>
-    <div class="hero-actions">
-      <a href="find-doctors.html" class="btn btn-primary">Find doctors near you</a>
-      <a href="services.html" class="btn btn-ghost">See what we cover</a>
-    </div>
-    <div class="hero-note"><span class="icon-dot"></span>The symptom checker below is a preview — the doctor directory is fully real.</div>
-
-    <div class="pulse-divider">
-      <svg viewBox="0 0 720 64" preserveAspectRatio="none" fill="none">
-        <path d="M0 32 H260 L280 8 L300 56 L320 32 L340 32 L360 12 L380 52 L400 32 H720" stroke="#D85A30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-
-    <div class="demo-card">
-      <div class="demo-card-head">
-        <span class="label">SYMPTOM CHECKER PREVIEW</span>
-        <span class="demo-tag">DEMO — sample only</span>
-      </div>
-      <div class="demo-body">
-        <div class="bubble user">I've had a sore throat and mild fever since yesterday.</div>
-        <div class="bubble ai">Got it. Any cough, body aches, or trouble swallowing? And how high is the fever?</div>
-        <div class="bubble user">Slight cough, no trouble swallowing. Fever's around 100.5°F.</div>
-        <div class="bubble result">
-          <div class="row"><span>Sample output — illustrative only</span></div>
-          <div class="row"><span>Common cold</span><span class="pct">likely</span></div>
-          <div class="row"><span>Seasonal flu</span><span class="pct">possible</span></div>
-          <div class="row"><span>Strep throat</span><span class="pct">less likely</span></div>
-        </div>
-      </div>
-      <div class="demo-foot">
-        <input type="text" placeholder="This preview doesn't accept real input" disabled>
-      </div>
-    </div>
+    <span class="eyebrow">What TahaDoc Covers</span>
+    <h1>Health topics, sorted by how urgent they are.</h1>
+    <p>From everyday concerns to situations that need a doctor immediately, here's how TahaDoc organizes the full range of symptoms people search for.</p>
   </div>
-</section>
+</div>
 
 <section>
   <div class="wrap">
-    <div class="trust-strip">
-      <div class="trust-stat"><div class="num">Real</div><div class="label">Doctor listings, not generated placeholders</div></div>
-      <div class="trust-stat"><div class="num">Any</div><div class="label">City — just type where you are</div></div>
-      <div class="trust-stat"><div class="num">Direct</div><div class="label">Phone numbers and clinic addresses included</div></div>
-      <div class="trust-stat"><div class="num">Free</div><div class="label">To search, no account required</div></div>
+    <div class="triage-board reveal-stagger">
+      <div class="triage-group">
+        <span class="tag tag-routine">Routine</span>
+        <h3>Everyday symptoms</h3>
+        <p>The concerns most people deal with day to day.</p>
+        <ul>
+          <li>Cold, flu &amp; sore throat</li>
+          <li>Headaches &amp; migraines</li>
+          <li>Allergies &amp; hay fever</li>
+          <li>Skin irritation &amp; minor rashes</li>
+          <li>Digestive discomfort &amp; nausea</li>
+          <li>Minor aches, strains &amp; sprains</li>
+          <li>Sleep difficulties</li>
+        </ul>
+      </div>
+      <div class="triage-group">
+        <span class="tag tag-priority">Priority</span>
+        <h3>Worth seeing a doctor soon</h3>
+        <p>Cases where a real consultation is the recommended next step.</p>
+        <ul>
+          <li>Fever lasting more than 2 days</li>
+          <li>Chronic condition check-ins (asthma, diabetes, hypertension)</li>
+          <li>Medication questions &amp; interactions</li>
+          <li>Recurring or worsening pain</li>
+          <li>Mental health &amp; stress concerns</li>
+          <li>Women's health questions</li>
+          <li>Pediatric symptoms parents are unsure about</li>
+        </ul>
+      </div>
+      <div class="triage-group">
+        <span class="tag tag-urgent">Urgent</span>
+        <h3>See a doctor now</h3>
+        <p>TahaDoc directs you straight to the doctor directory for these.</p>
+        <ul>
+          <li>Severe, sudden, or worsening pain</li>
+          <li>Difficulty breathing</li>
+          <li>High fever that won't come down</li>
+          <li>Signs of infection spreading</li>
+          <li>Chest pain or pressure</li>
+          <li>Symptoms after an injury or fall</li>
+          <li>Any symptom that feels like an emergency</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="section-alt">
   <div class="wrap">
-    <div class="section-head centered">
-      <h2>Two tools, one goal</h2>
-      <p>Get a clearer sense of what's going on, then take the next real step.</p>
+    <div class="section-head centered reveal">
+      <h2>How a visit to TahaDoc works</h2>
+      <p>From first symptom to a real appointment, here's the path most people take.</p>
     </div>
-    <div class="card-grid">
-      <div class="card">
-        <div class="icon-badge">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    <div class="process reveal-stagger">
+      <div class="process-step">
+        <div class="num">1</div>
+        <div class="step-content">
+          <h4>Notice something's off</h4>
+          <p>A sore throat, a headache, a fever that's lingered a bit too long — the moment you start wondering whether it's worth worrying about.</p>
         </div>
-        <h3>Symptom checker (preview)</h3>
-        <p>See how a guided symptom conversation works. This is a product preview — it does not currently process real symptoms or give a diagnosis.</p>
       </div>
-      <div class="card">
-        <div class="icon-badge">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div class="process-step">
+        <div class="num">2</div>
+        <div class="step-content">
+          <h4>Try the symptom checker preview</h4>
+          <p>Get a feel for how a guided conversation about your symptoms works, in plain language, no medical jargon.</p>
         </div>
-        <h3>Doctor directory (live)</h3>
-        <p>Type your city and find real doctors and clinics nearby, pulled from OpenStreetMap — complete with phone numbers and addresses.</p>
       </div>
-      <div class="card">
-        <div class="icon-badge">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      <div class="process-step">
+        <div class="num">3</div>
+        <div class="step-content">
+          <h4>Decide how urgent it is</h4>
+          <p>Use the routine/priority/urgent breakdown on this page to get a sense of how quickly you should act.</p>
         </div>
-        <h3>Clear next step</h3>
-        <p>Whatever you learn, the goal is the same: help you decide whether to rest, watch it, or book a real appointment.</p>
+      </div>
+      <div class="process-step">
+        <div class="num">4</div>
+        <div class="step-content">
+          <h4>Find a real doctor</h4>
+          <p>Search your city in the doctor directory and get a real name, address, and phone number to call.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -128,10 +141,10 @@
 
 <section>
   <div class="wrap">
-    <div class="cta-band">
+    <div class="cta-band reveal">
       <div>
-        <h2>Need a doctor right now?</h2>
-        <p>Search your city and get real contact details in seconds.</p>
+        <h2>Know which one you need?</h2>
+        <p>Start with the doctor directory if you're not sure — it's the fastest path to a real answer.</p>
       </div>
       <a href="find-doctors.html" class="btn btn-primary">Find doctors near you</a>
     </div>
@@ -189,6 +202,18 @@ navToggle?.addEventListener('click', () => {
   const isOpen = navLinks.classList.toggle('nav-open');
   navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 });
+// Scroll-reveal: fade/slide elements in as they enter the viewport.
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => revealObserver.observe(el));
+
 </script>
 
 </body>

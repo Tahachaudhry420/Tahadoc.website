@@ -53,11 +53,11 @@
 
 <section>
   <div class="wrap">
-    <div class="section-head centered">
+    <div class="section-head centered reveal">
       <h2>What we believe</h2>
       <p>Four principles guide how TahaDoc is built.</p>
     </div>
-    <div class="value-grid">
+    <div class="value-grid reveal-stagger">
       <div class="value-card">
         <div class="icon-badge">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -100,11 +100,11 @@
 
 <section class="section-alt">
   <div class="wrap">
-    <div class="section-head centered">
+    <div class="section-head centered reveal">
       <h2>What TahaDoc is — and isn't</h2>
       <p>Being clear about limits is part of being trustworthy.</p>
     </div>
-    <div class="limits-list">
+    <div class="limits-list reveal-stagger">
       <div class="item">
         <span>⚠</span>
         <span><strong>Not a diagnosis tool.</strong> The symptom checker is a product preview meant to show how the experience feels. It does not currently analyze real symptoms or produce a medical diagnosis.</span>
@@ -127,7 +127,7 @@
 
 <section>
   <div class="wrap">
-    <div class="cta-band">
+    <div class="cta-band reveal">
       <div>
         <h2>Ready to find a doctor?</h2>
         <p>Search your city and get real contact details in seconds.</p>
@@ -188,6 +188,18 @@ navToggle?.addEventListener('click', () => {
   const isOpen = navLinks.classList.toggle('nav-open');
   navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 });
+// Scroll-reveal: fade/slide elements in as they enter the viewport.
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => revealObserver.observe(el));
+
 </script>
 
 </body>
