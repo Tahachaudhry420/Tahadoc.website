@@ -1,8 +1,0 @@
-[build]
-  publish = "."
-  functions = "netlify/functions"
-
-[[redirects]]
-  from = "/api/find-doctors"
-  to = "/.netlify/functions/find-doctors"
-  status = 200
