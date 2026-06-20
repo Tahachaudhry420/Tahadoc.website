@@ -12,6 +12,7 @@
   --coral-pale: #FAECE7;
   --paper: #FBFAF7;
   --surface: #F3F1EA;
+  --card-bg: #FFFFFF;
   --ink: #1C2421;
   --ink-soft: #5C6863;
   --line: #DEDAD0;
@@ -19,6 +20,7 @@
   --amber-pale: #FAEEDA;
   --red: #A32D2D;
   --red-pale: #FCEBEB;
+  --shadow-color: 28,36,33;
 
   --font-display: "Fraunces", "Space Grotesk", serif;
   --font-body: "Inter", -apple-system, sans-serif;
@@ -26,6 +28,32 @@
 
   --radius: 16px;
   --max-width: 1180px;
+
+  color-scheme: light;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] {
+  --teal: #3FAE8F;
+  --teal-dark: #6FCBB0;
+  --teal-pale: #16302A;
+  --teal-pale-strong: #1C3D34;
+  --coral: #F08259;
+  --coral-dark: #FFA47C;
+  --coral-pale: #3A2620;
+  --paper: #15191A;
+  --surface: #1D2222;
+  --card-bg: #202625;
+  --ink: #EDEFEC;
+  --ink-soft: #A3ACA6;
+  --line: #313936;
+  --amber: #E0A847;
+  --amber-pale: #382C16;
+  --red: #E08080;
+  --red-pale: #3A1F1F;
+  --shadow-color: 0,0,0;
+
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -39,6 +67,7 @@ body {
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
 img { max-width: 100%; display: block; }
@@ -87,7 +116,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    Top bars
    =========================================================== */
 .status-strip {
-  background: var(--ink);
+  background: #15191A;
   color: #aab5af;
   font-family: var(--font-mono);
   font-size: 12.5px;
@@ -153,6 +182,25 @@ header.site-header {
 .nav-cta { display: flex; align-items: center; gap: 18px; }
 .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
 .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); margin: 5px 0; border-radius: 1px; }
+
+/* ===========================================================
+   Theme toggle
+   =========================================================== */
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  background: var(--card-bg);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  flex-shrink: 0;
+}
+.theme-toggle:hover { border-color: var(--teal); color: var(--teal); transform: rotate(-12deg); }
+.theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
 
 /* ===========================================================
    Buttons
@@ -224,7 +272,7 @@ header.site-header {
 
 /* ---- Symptom checker demo card ---- */
 .demo-card {
-  background: #fff;
+  background: var(--card-bg);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: 0 30px 70px -30px rgba(28,36,33,0.3);
@@ -257,7 +305,7 @@ header.site-header {
 .bubble { font-size: 13.5px; line-height: 1.5; padding: 12px 15px; border-radius: 12px; margin-bottom: 10px; max-width: 88%; }
 .bubble.user { background: var(--surface); color: var(--ink); margin-left: auto; border-radius: 12px 12px 2px 12px; border: 1px solid var(--line); }
 .bubble.ai { background: var(--teal-pale); color: var(--ink); border-radius: 12px 12px 12px 2px; }
-.bubble.result { background: var(--ink); color: #eef0ee; border-radius: 12px; padding: 15px; font-size: 13px; margin-top: 8px; }
+.bubble.result { background: #15191A; color: #eef0ee; border-radius: 12px; padding: 15px; font-size: 13px; margin-top: 8px; }
 .bubble.result .row { display: flex; justify-content: space-between; padding: 6px 0; border-top: 1px solid #364039; }
 .bubble.result .row:first-child { border-top: none; }
 .bubble.result .pct { color: var(--coral); font-family: var(--font-mono); }
@@ -282,7 +330,7 @@ section { padding: 96px 0; }
    =========================================================== */
 .triage-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .triage-group {
-  background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
+  background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .triage-group:hover {
@@ -345,7 +393,7 @@ section { padding: 96px 0; }
    =========================================================== */
 .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .card {
-  background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
+  background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px;
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
 }
 .card:hover {
@@ -386,7 +434,7 @@ section { padding: 96px 0; }
 /* ===========================================================
    Footer
    =========================================================== */
-footer { background: var(--ink); color: #a3aca6; padding: 60px 0 30px; font-size: 14px; }
+footer { background: #15191A; color: #a3aca6; padding: 60px 0 30px; font-size: 14px; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 44px; }
 .footer-grid h4 { color: #fff; font-size: 14px; margin-bottom: 18px; font-family: var(--font-body); font-weight: 600; }
 .footer-grid ul { list-style: none; margin: 0; padding: 0; }
@@ -409,7 +457,7 @@ footer { background: var(--ink); color: #a3aca6; padding: 60px 0 30px; font-size
    Doctor finder
    =========================================================== */
 .finder-panel {
-  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 26px; display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap;
 }
 .finder-field { flex: 1; min-width: 200px; }
@@ -421,7 +469,7 @@ footer { background: var(--ink); color: #a3aca6; padding: 60px 0 30px; font-size
 
 .results-list { margin-top: 30px; display: grid; gap: 16px; }
 .doctor-card {
-  background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 22px 24px; display: flex; justify-content: space-between; gap: 20px; align-items: flex-start;
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
 }
@@ -442,7 +490,7 @@ footer { background: var(--ink); color: #a3aca6; padding: 60px 0 30px; font-size
    =========================================================== */
 .value-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
 .value-card {
-  display: flex; gap: 18px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff;
+  display: flex; gap: 18px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card-bg);
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
 }
 .value-card:hover {
@@ -466,7 +514,7 @@ footer { background: var(--ink); color: #a3aca6; padding: 60px 0 30px; font-size
 .info-row h4 { font-size: 16px; margin-bottom: 4px; font-family: var(--font-display); }
 .info-row p { font-size: 14.5px; color: var(--ink-soft); }
 
-.form-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 34px; }
+.form-card { background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 34px; }
 .form-row { margin-bottom: 20px; }
 .form-row label { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 8px; }
 .form-row input, .form-row select, .form-row textarea {

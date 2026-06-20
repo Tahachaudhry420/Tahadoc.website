@@ -2,6 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+  // Apply saved/system theme immediately, before page renders, to avoid a flash of the wrong theme.
+  (function() {
+    const saved = localStorage.getItem('tahadoc-theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && systemPrefersDark)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find Doctors — TahaDoc</title>
 <meta name="description" content="Find real, verified doctors and clinics in your city with phone numbers and addresses.">
@@ -37,6 +48,10 @@
       <a href="contact.html">Contact</a>
     </div>
     <div class="nav-cta">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
       <a href="find-doctors.html" class="btn btn-primary btn-small">Find a doctor</a>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
@@ -177,6 +192,20 @@ navToggle?.addEventListener('click', () => {
   const isOpen = navLinks.classList.toggle('nav-open');
   navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 });
+// Theme toggle button — the initial theme was already applied in <head>
+// to avoid a flash; this just handles the click to switch and save it.
+const themeToggle = document.getElementById('themeToggle');
+themeToggle?.addEventListener('click', () => {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('tahadoc-theme', 'light');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('tahadoc-theme', 'dark');
+  }
+});
+
 // Scroll-reveal: fade/slide elements in as they enter the viewport.
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
