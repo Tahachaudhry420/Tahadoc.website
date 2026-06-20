@@ -1,182 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact — TahaDoc</title>
-<meta name="description" content="Get in touch with the TahaDoc team.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+// netlify/functions/find-doctors.js
+//
+// This is a serverless function. It runs on Netlify's servers, not in the
+// browser — that's important because it lets us safely call external APIs
+// without exposing any keys (and in this case, no key is needed at all).
+//
+// It does two things:
+// 1. Asks OpenStreetMap's Nominatim service "where is this city?"
+// 2. Asks Overpass API "what clinics/hospitals/doctors exist near there?"
+//
+// Both of these are free, public services with no API key and no signup.
 
-<div class="status-strip">
-  <div class="wrap">
-    <span><span class="dot"></span>Doctor directory live — search any city</span>
-    <span class="right">24/7</span>
-  </div>
-</div>
+export default async (req) => {
+  try {
+    const url = new URL(req.url);
+    const city = url.searchParams.get("city");
+    const specialty = url.searchParams.get("specialty") || "";
 
-<div class="emergency-banner">
-  <div class="wrap">
-    <span>⚠</span>
-    <span><strong>Medical emergency?</strong> Call your local emergency number immediately. TahaDoc does not handle emergencies.</span>
-  </div>
-</div>
+    if (!city || city.trim().length < 2) {
+      return new Response(
+        JSON.stringify({ error: "Please provide a city name." }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
-<header class="site-header">
-  <nav class="nav">
-    <a href="index.html" class="logo"><span class="mark"></span>TahaDoc</a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="find-doctors.html">Find Doctors</a>
-      <a href="services.html">Services</a>
-      <a href="about.html">About</a>
-      <a href="contact.html" class="active">Contact</a>
-    </div>
-    <div class="nav-cta">
-      <a href="find-doctors.html" class="btn btn-primary btn-small">Find a doctor</a>
-      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
-    </div>
-  </nav>
-</header>
+    // Step 1: turn the city name into coordinates using Nominatim.
+    const geoRes = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(city)}`,
+      {
+        headers: {
+          // Nominatim's usage policy requires a descriptive User-Agent.
+          "User-Agent": "TahaDoc-Website/1.0 (contact: hello@tahadoc.com)",
+        },
+      }
+    );
 
-<div class="page-header">
-  <div class="wrap">
-    <span class="eyebrow">Get In Touch</span>
-    <h1>Reach the TahaDoc team.</h1>
-    <p>Questions about a listing, feedback on the symptom checker preview, or anything else — we're glad to hear from you.</p>
-  </div>
-</div>
+    if (!geoRes.ok) {
+      return new Response(
+        JSON.stringify({ error: "Could not look up that city right now. Please try again shortly." }),
+        { status: 502, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
-<section>
-  <div class="wrap">
-    <div class="contact-grid">
-      <div>
-        <h2 style="font-size:25px; margin-bottom:26px;">Reach us directly</h2>
-        <div class="info-row">
-          <div class="icon-badge">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
-          </div>
-          <div>
-            <h4>Email</h4>
-            <p>hello@tahadoc.com — general inquiries<br>support@tahadoc.com — technical support</p>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="icon-badge">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          </div>
-          <div>
-            <h4>Availability</h4>
-            <p>Doctor directory: searchable 24/7.<br>Support team: 9am–9pm, 7 days a week.</p>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="icon-badge">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          </div>
-          <div>
-            <h4>Coverage</h4>
-            <p>Search works for any city — just type where you are on the Find Doctors page.</p>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="icon-badge">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          </div>
-          <div>
-            <h4>Privacy</h4>
-            <p>Everything you share is confidential and used only to respond to you.</p>
-          </div>
-        </div>
-      </div>
+    const geoData = await geoRes.json();
 
-      <div class="form-card">
-        <h2 style="font-size:23px; margin-bottom:6px;">Send a message</h2>
-        <p style="color:var(--ink-soft); font-size:14px; margin-bottom:26px;">We'll get back to you within one business day.</p>
-        <form onsubmit="event.preventDefault(); alert('This is a demo form — connect it to your email or backend to go live.');">
-          <div class="form-row">
-            <label for="name">Full name</label>
-            <input type="text" id="name" placeholder="Your name" required>
-          </div>
-          <div class="form-row">
-            <label for="email">Email address</label>
-            <input type="email" id="email" placeholder="you@example.com" required>
-          </div>
-          <div class="form-row">
-            <label for="topic">What's this about?</label>
-            <select id="topic">
-              <option>General question</option>
-              <option>Doctor listing issue</option>
-              <option>Feedback on symptom checker</option>
-              <option>Something else</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label for="message">Message</label>
-            <textarea id="message" placeholder="How can we help?" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send message</button>
-          <p class="form-note">For medical emergencies, contact local emergency services instead of using this form.</p>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
+    if (!geoData || geoData.length === 0) {
+      return new Response(
+        JSON.stringify({ error: `We couldn't find a city called "${city}". Try checking the spelling.` }),
+        { status: 404, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
-<footer>
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-logo"><span class="mark"></span>TahaDoc</div>
-        <p>Symptom guidance and a real doctor directory, in one place.</p>
-      </div>
-      <div>
-        <h4>Site</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="find-doctors.html">Find Doctors</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Services</h4>
-        <ul>
-          <li><a href="services.html">Routine concerns</a></li>
-          <li><a href="services.html">Priority care</a></li>
-          <li><a href="services.html">Urgent triage</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <ul>
-          <li>hello@tahadoc.com</li>
-          <li>Available 24/7, online</li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-disclaimer">
-      <strong>TahaDoc's symptom checker is a product preview and does not provide medical diagnosis.</strong> Doctor listings are sourced from OpenStreetMap and may change — always confirm details directly with the clinic before visiting. If you are experiencing a medical emergency, call your local emergency number or go to the nearest emergency room immediately.
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 TahaDoc. All rights reserved.</span>
-      <span>Made for informational purposes</span>
-    </div>
-  </div>
-</footer>
+    const lat = parseFloat(geoData[0].lat);
+    const lon = parseFloat(geoData[0].lon);
 
-<script>
-const navToggle = document.querySelector('.nav-toggle');
-const navLinks = document.querySelector('.nav-links');
-navToggle?.addEventListener('click', () => {
-  const isOpen = navLinks.classList.toggle('nav-open');
-  navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-});
-</script>
+    // Step 2: search Overpass API for medical places within ~6km of that point.
+    const radiusMeters = 6000;
+    const overpassQuery = `
+      [out:json][timeout:25];
+      (
+        node["amenity"="clinic"](around:${radiusMeters},${lat},${lon});
+        node["amenity"="doctors"](around:${radiusMeters},${lat},${lon});
+        node["amenity"="hospital"](around:${radiusMeters},${lat},${lon});
+        way["amenity"="clinic"](around:${radiusMeters},${lat},${lon});
+        way["amenity"="doctors"](around:${radiusMeters},${lat},${lon});
+        way["amenity"="hospital"](around:${radiusMeters},${lat},${lon});
+      );
+      out center 30;
+    `;
 
-</body>
-</html>
+    const overpassRes = await fetch("https://overpass-api.de/api/interpreter", {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: overpassQuery,
+    });
+
+    if (!overpassRes.ok) {
+      return new Response(
+        JSON.stringify({ error: "The doctor directory is busy right now. Please try again in a moment." }),
+        { status: 502, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const overpassData = await overpassRes.json();
+
+    // Step 3: shape the raw OSM data into something clean for the frontend.
+    let results = (overpassData.elements || [])
+      .map((el) => {
+        const tags = el.tags || {};
+        const name = tags.name || tags["name:en"];
+        if (!name) return null; // skip unnamed entries, not useful to show
+
+        return {
+          name,
+          type: tags.amenity, // "clinic", "doctors", or "hospital"
+          specialty: tags["healthcare:speciality"] || tags.speciality || null,
+          phone: tags.phone || tags["contact:phone"] || null,
+          address: [tags["addr:housenumber"], tags["addr:street"], tags["addr:city"]]
+            .filter(Boolean)
+            .join(", ") || null,
+          website: tags.website || tags["contact:website"] || null,
+          openingHours: tags.opening_hours || null,
+          lat: el.lat || (el.center && el.center.lat) || null,
+          lon: el.lon || (el.center && el.center.lon) || null,
+        };
+      })
+      .filter(Boolean);
+
+    // Optional: filter loosely by specialty text if the user picked one.
+    if (specialty && specialty.toLowerCase() !== "general physician") {
+      const term = specialty.toLowerCase();
+      const filtered = results.filter(
+        (r) => (r.specialty && r.specialty.toLowerCase().includes(term)) ||
+               r.name.toLowerCase().includes(term)
+      );
+      // Only apply the filter if it doesn't wipe out every result —
+      // OSM's specialty tagging is inconsistent, so an empty filtered
+      // list usually means "no tag data," not "no doctors."
+      if (filtered.length > 0) results = filtered;
+    }
+
+    return new Response(
+      JSON.stringify({
+        city: geoData[0].display_name,
+        count: results.length,
+        results: results.slice(0, 25),
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
+  } catch (err) {
+    return new Response(
+      JSON.stringify({ error: "Something went wrong on our end. Please try again." }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+};

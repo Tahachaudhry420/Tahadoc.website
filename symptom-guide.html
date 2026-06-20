@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Symptom Guide — TahaDoc</title>
+<meta name="description" content="Tell us what's going on and we'll point you to the right type of doctor — then help you find one nearby.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .chat-shell {
+    max-width: 640px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 24px 60px -30px rgba(28,36,33,0.2);
+    overflow: hidden;
+  }
+  .chat-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 24px;
+    background: var(--teal-pale);
+    border-bottom: 1px solid var(--teal-pale-strong);
+  }
+  .chat-head .label {
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.04em;
+    color: var(--teal-dark); display: flex; align-items: center; gap: 7px;
+  }
+  .chat-messages {
+    padding: 24px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .chat-bubble {
+    font-size: 14.5px; line-height: 1.55; padding: 13px 16px; border-radius: 14px; max-width: 85%;
+  }
+  .chat-bubble.bot {
+    background: var(--teal-pale); color: var(--ink); border-radius: 14px 14px 14px 3px; align-self: flex-start;
+  }
+  .chat-bubble.user {
+    background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 14px 14px 3px 14px; align-self: flex-end;
+  }
+  .chat-bubble.guidance {
+    background: var(--ink); color: #eef0ee; border-radius: 14px; align-self: stretch;
+  }
+  .chat-bubble.guidance .specialty-name {
+    font-family: var(--font-display); font-size: 18px; color: #fff; margin: 6px 0 10px;
+  }
+  .chat-bubble.guidance .disclaimer-line {
+    font-size: 12.5px; color: #9fb0a8; margin-top: 10px; padding-top: 10px; border-top: 1px solid #364039;
+  }
+  .chat-bubble.guidance a.btn {
+    margin-top: 12px;
+  }
+  .chat-input-row {
+    display: flex; gap: 10px; padding: 18px 24px; border-top: 1px solid var(--line);
+  }
+  .chat-input-row input {
+    flex: 1; padding: 12px 16px; border-radius: 100px; border: 1.5px solid var(--line);
+    background: var(--surface); font-family: var(--font-body); font-size: 14.5px; color: var(--ink);
+  }
+  .quick-chip-row { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 24px 18px; }
+  .quick-chip {
+    font-size: 13px; padding: 7px 14px; border-radius: 100px; border: 1.5px solid var(--line);
+    background: #fff; cursor: pointer; color: var(--ink-soft);
+  }
+  .quick-chip:hover { border-color: var(--teal); color: var(--teal-dark); }
+</style>
+</head>
+<body>
+
+<div class="status-strip">
+  <div class="wrap">
+    <span><span class="dot"></span>Doctor directory live — search any city</span>
+    <span class="right">24/7</span>
+  </div>
+</div>
+
+<div class="emergency-banner">
+  <div class="wrap">
+    <span>⚠</span>
+    <span><strong>Medical emergency?</strong> Call your local emergency number immediately. TahaDoc does not handle emergencies.</span>
+  </div>
+</div>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="logo"><span class="mark"></span>TahaDoc</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="symptom-guide.html" class="active">Symptom Guide</a>
+      <a href="find-doctors.html">Find Doctors</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="find-doctors.html" class="btn btn-primary btn-small">Find a doctor</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<div class="page-header">
+  <div class="wrap">
+    <span class="eyebrow">Not Sure Who To See?</span>
+    <h1>Tell us what's going on.</h1>
+    <p>This won't diagnose anything — it just helps point you toward the right <em>type</em> of doctor, so your search is faster.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="chat-shell">
+      <div class="chat-head">
+        <span class="label">SYMPTOM GUIDE</span>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-bubble bot">Hi! Describe what you're feeling in your own words, and I'll suggest the kind of doctor who usually handles it. I won't try to guess what condition you have — just who to call.</div>
+      </div>
+      <div class="quick-chip-row">
+        <button class="quick-chip" data-text="I have a skin rash">Skin rash</button>
+        <button class="quick-chip" data-text="My tooth hurts">Tooth pain</button>
+        <button class="quick-chip" data-text="I've had a fever for two days">Fever</button>
+        <button class="quick-chip" data-text="I'm feeling anxious and stressed">Anxiety/stress</button>
+        <button class="quick-chip" data-text="My child has a cough">Child's cough</button>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="symptomInput" placeholder="e.g. I've had a sore throat for 3 days" />
+        <button class="btn btn-primary btn-small" id="symptomSendBtn">Send</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="wrap">
+    <div class="section-head centered">
+      <h2>What this tool does — and doesn't do</h2>
+      <p>Being upfront about limits is part of being useful.</p>
+    </div>
+    <div class="limits-list">
+      <div class="item">
+        <span>✅</span>
+        <span><strong>Suggests a category of doctor</strong> — like "General Physician" or "Dermatologist" — based on simple keyword matching in what you type.</span>
+      </div>
+      <div class="item">
+        <span>⚠</span>
+        <span><strong>Does not diagnose conditions.</strong> It never tells you what illness you might have — only what kind of specialist typically handles that type of concern.</span>
+      </div>
+      <div class="item">
+        <span>⚠</span>
+        <span><strong>Not for emergencies.</strong> If something feels urgent or severe, skip this tool and call your local emergency number or go to the nearest doctor immediately.</span>
+      </div>
+      <div class="item">
+        <span>⚠</span>
+        <span><strong>Always defers to a real doctor.</strong> The actual answer — what's going on and what to do — comes from the doctor you visit, not from this page.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span class="mark"></span>TahaDoc</div>
+        <p>Symptom guidance and a real doctor directory, in one place.</p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="symptom-guide.html">Symptom Guide</a></li>
+          <li><a href="find-doctors.html">Find Doctors</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Routine concerns</a></li>
+          <li><a href="services.html">Priority care</a></li>
+          <li><a href="services.html">Urgent triage</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>hello@tahadoc.com</li>
+          <li>Available 24/7, online</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      <strong>TahaDoc's symptom guide suggests a category of doctor based on keywords and does not provide medical diagnosis.</strong> Doctor listings are sourced from OpenStreetMap and may change — always confirm details directly with the clinic before visiting. If you are experiencing a medical emergency, call your local emergency number or go to the nearest emergency room immediately.
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TahaDoc. All rights reserved.</span>
+      <span>Made for informational purposes</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+navToggle?.addEventListener('click', () => {
+  const isOpen = navLinks.classList.toggle('nav-open');
+  navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+
+// ---------------------------------------------------------------
+// Keyword → specialty map.
+// IMPORTANT: this never names a condition/illness — only a doctor
+// category. That's a deliberate safety boundary, not an oversight.
+// ---------------------------------------------------------------
+const SPECIALTY_RULES = [
+  { keywords: ['tooth', 'teeth', 'gum', 'dental', 'cavity'], specialty: 'Dentist' },
+  { keywords: ['skin', 'rash', 'acne', 'itch', 'mole', 'eczema'], specialty: 'Dermatologist' },
+  { keywords: ['child', 'kid', 'baby', 'infant', 'son', 'daughter'], specialty: 'Pediatrician' },
+  { keywords: ['anxious', 'anxiety', 'stress', 'depress', 'sad', 'panic', 'sleep problem', 'insomnia'], specialty: 'Psychiatrist' },
+  { keywords: ['pregnan', 'period', 'menstrual', 'gynae', 'women'], specialty: 'Gynecologist' },
+  { keywords: ['ear', 'nose', 'throat', 'sinus', 'sore throat', 'hearing'], specialty: 'ENT Specialist' },
+  { keywords: ['heart', 'chest pain', 'palpitation', 'blood pressure'], specialty: 'Cardiologist' },
+  { keywords: ['bone', 'joint', 'fracture', 'sprain', 'back pain', 'knee', 'shoulder'], specialty: 'Orthopedic' },
+  { keywords: ['eye', 'vision', 'blurry'], specialty: 'Ophthalmologist' },
+];
+
+function findSpecialty(text) {
+  const lower = text.toLowerCase();
+  for (const rule of SPECIALTY_RULES) {
+    if (rule.keywords.some((kw) => lower.includes(kw))) {
+      return rule.specialty;
+    }
+  }
+  return 'General Physician'; // sensible default — GPs triage everything else
+}
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+const chatMessages = document.getElementById('chatMessages');
+const symptomInput = document.getElementById('symptomInput');
+const symptomSendBtn = document.getElementById('symptomSendBtn');
+
+function addBubble(html, className) {
+  const div = document.createElement('div');
+  div.className = `chat-bubble ${className}`;
+  div.innerHTML = html;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function handleSubmit() {
+  const text = symptomInput.value.trim();
+  if (!text) return;
+
+  addBubble(escapeHtml(text), 'user');
+  symptomInput.value = '';
+
+  const specialty = findSpecialty(text);
+  const encodedSpecialty = encodeURIComponent(specialty);
+
+  setTimeout(() => {
+    addBubble(`
+      Based on what you've described, this is often something a:
+      <div class="specialty-name">${escapeHtml(specialty)}</div>
+      can help with. This is just a starting point, not a diagnosis — they'll be able to tell you what's actually going on.
+      <br><br>
+      <a href="find-doctors.html?specialty=${encodedSpecialty}" class="btn btn-primary btn-small">Find a ${escapeHtml(specialty)} near you</a>
+      <div class="disclaimer-line">If this feels urgent or severe, please contact emergency services instead of continuing here.</div>
+    `, 'guidance');
+  }, 450);
+}
+
+symptomSendBtn.addEventListener('click', handleSubmit);
+symptomInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') handleSubmit();
+});
+
+document.querySelectorAll('.quick-chip').forEach((chip) => {
+  chip.addEventListener('click', () => {
+    symptomInput.value = chip.dataset.text;
+    handleSubmit();
+  });
+});
+</script>
+
+</body>
+</html>
