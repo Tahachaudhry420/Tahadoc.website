@@ -23,8 +23,18 @@
 <body>
 
 <div class="intro-overlay" id="introOverlay">
-  <div class="intro-mark"></div>
-  <div class="intro-word">TahaDoc</div>
+  <div class="intro-stage">
+    <div class="intro-ripple"></div>
+    <div class="intro-ripple"></div>
+    <div class="intro-ripple"></div>
+    <div class="intro-pulse-line">
+      <svg viewBox="0 0 800 120" preserveAspectRatio="none">
+        <path d="M0 60 H320 L345 18 L370 100 L392 60 L415 60 L438 30 L462 90 L485 60 H800" />
+      </svg>
+    </div>
+    <div class="intro-mark"></div>
+    <div class="intro-word">TahaDoc</div>
+  </div>
 </div>
 
 <div class="status-strip">
@@ -240,7 +250,7 @@ document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => revealObse
 const introOverlay = document.getElementById('introOverlay');
 if (introOverlay) {
   introOverlay.addEventListener('animationend', (e) => {
-    if (e.animationName === 'intro-fade-out') introOverlay.remove();
+    if (e.animationName === 'intro-wipe-out') introOverlay.remove();
   });
 }
 
