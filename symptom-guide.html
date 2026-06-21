@@ -264,21 +264,21 @@ document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => revealObse
 // category. That's a deliberate safety boundary, not an oversight.
 // ---------------------------------------------------------------
 const SPECIALTY_RULES = [
-  { keywords: ['tooth', 'teeth', 'gum', 'dental', 'cavity', 'toothache', 'wisdom tooth'], specialty: 'Dentist' },
-  { keywords: ['skin', 'rash', 'acne', 'itch', 'mole', 'eczema', 'hives', 'psoriasis', 'hair loss', 'dandruff'], specialty: 'Dermatologist' },
-  { keywords: ['child', 'kid', 'baby', 'infant', 'son', 'daughter', 'toddler', 'newborn'], specialty: 'Pediatrician' },
-  { keywords: ['anxious', 'anxiety', 'stress', 'depress', 'sad', 'panic', 'sleep problem', 'insomnia', 'mood', 'overwhelmed', 'mental health'], specialty: 'Psychiatrist' },
-  { keywords: ['pregnan', 'period', 'menstrual', 'gynae', 'women', 'pcos', 'ovary', 'fertility'], specialty: 'Gynecologist' },
-  { keywords: ['ear', 'nose', 'throat', 'sinus', 'sore throat', 'hearing', 'tonsil', 'snoring', 'nosebleed'], specialty: 'ENT Specialist' },
-  { keywords: ['heart', 'palpitation', 'blood pressure', 'cholesterol', 'chest tightness'], specialty: 'Cardiologist' },
-  { keywords: ['bone', 'joint', 'fracture', 'sprain', 'knee', 'shoulder', 'arthritis', 'muscle pain'], specialty: 'Orthopedic' },
-  { keywords: ['eye', 'vision', 'blurry', 'eyesight', 'glasses', 'eye pain', 'red eye'], specialty: 'Ophthalmologist' },
-  { keywords: ['urin', 'bladder', 'kidney stone', 'prostate'], specialty: 'Urologist' },
-  { keywords: ['headache', 'migraine', 'dizziness', 'numbness', 'seizure', 'memory loss', 'tremor'], specialty: 'Neurologist' },
-  { keywords: ['stomach', 'nausea', 'vomit', 'diarrhea', 'constipation', 'acid reflux', 'bloating', 'abdominal'], specialty: 'Gastroenterologist' },
-  { keywords: ['breathing', 'shortness of breath', 'wheezing', 'asthma', 'persistent cough'], specialty: 'Pulmonologist' },
-  { keywords: ['thyroid', 'diabetes', 'blood sugar', 'weight gain', 'weight loss', 'hormone'], specialty: 'Endocrinologist' },
-  { keywords: ['allerg', 'hay fever', 'food sensitivity'], specialty: 'Allergist' },
+  { keywords: ['tooth', 'teeth', 'gum', 'dental', 'cavity', 'toothache', 'wisdom tooth', 'dant', 'daant', 'dant dard'], specialty: 'Dentist' },
+  { keywords: ['skin', 'rash', 'acne', 'itch', 'mole', 'eczema', 'hives', 'psoriasis', 'hair loss', 'dandruff', 'jild', 'khujli', 'dane'], specialty: 'Dermatologist' },
+  { keywords: ['child', 'kid', 'baby', 'infant', 'son', 'daughter', 'toddler', 'newborn', 'bacha', 'bachi', 'bachay'], specialty: 'Pediatrician' },
+  { keywords: ['anxious', 'anxiety', 'stress', 'depress', 'sad', 'panic', 'sleep problem', 'insomnia', 'mood', 'overwhelmed', 'mental health', 'pareshani', 'udaas', 'neend nahi'], specialty: 'Psychiatrist' },
+  { keywords: ['pregnan', 'period', 'menstrual', 'gynae', 'women', 'pcos', 'ovary', 'fertility', 'hamal', 'mahwari'], specialty: 'Gynecologist' },
+  { keywords: ['ear', 'nose', 'throat', 'sinus', 'sore throat', 'hearing', 'tonsil', 'snoring', 'nosebleed', 'kaan', 'naak', 'gala', 'gala kharab'], specialty: 'ENT Specialist' },
+  { keywords: ['heart', 'palpitation', 'blood pressure', 'cholesterol', 'chest tightness', 'dil', 'dil ki dharkan'], specialty: 'Cardiologist' },
+  { keywords: ['bone', 'joint', 'fracture', 'sprain', 'knee', 'shoulder', 'arthritis', 'muscle pain', 'haddi', 'jor', 'ghutna'], specialty: 'Orthopedic' },
+  { keywords: ['eye', 'vision', 'blurry', 'eyesight', 'glasses', 'eye pain', 'red eye', 'aankh', 'ankh'], specialty: 'Ophthalmologist' },
+  { keywords: ['urin', 'bladder', 'kidney stone', 'prostate', 'paishab', 'gurda'], specialty: 'Urologist' },
+  { keywords: ['headache', 'migraine', 'dizziness', 'numbness', 'seizure', 'memory loss', 'tremor', 'sar dard', 'sir dard', 'chakkar'], specialty: 'Neurologist' },
+  { keywords: ['stomach', 'nausea', 'vomit', 'diarrhea', 'constipation', 'acid reflux', 'bloating', 'abdominal', 'pait', 'pait dard', 'qai', 'ulti', 'dast'], specialty: 'Gastroenterologist' },
+  { keywords: ['breathing', 'shortness of breath', 'wheezing', 'asthma', 'persistent cough', 'saans', 'khansi'], specialty: 'Pulmonologist' },
+  { keywords: ['thyroid', 'diabetes', 'blood sugar', 'weight gain', 'weight loss', 'hormone', 'sugar', 'wazan'], specialty: 'Endocrinologist' },
+  { keywords: ['allerg', 'hay fever', 'food sensitivity', 'elerji'], specialty: 'Allergist' },
 ];
 
 // Location/context follow-up: when a term is ambiguous on its own (like
@@ -294,6 +294,15 @@ const AMBIGUOUS_FOLLOWUPS = {
       { label: 'Head', specialty: 'Neurologist' },
     ],
   },
+  dard: {
+    question: "Achha, dard kahan ho raha hai?",
+    options: [
+      { label: 'Seenay mein (chest)', specialty: 'Cardiologist' },
+      { label: 'Pait mein (stomach)', specialty: 'Gastroenterologist' },
+      { label: 'Jor/haddi mein (joint)', specialty: 'Orthopedic' },
+      { label: 'Sar mein (head)', specialty: 'Neurologist' },
+    ],
+  },
   fever: {
     question: "Thanks — is this fever just for you, or is it your child?",
     options: [
@@ -301,24 +310,82 @@ const AMBIGUOUS_FOLLOWUPS = {
       { label: "It's for me (adult)", specialty: 'General Physician' },
     ],
   },
+  bukhar: {
+    question: "Yeh bukhar aap ko hai ya bachay ko?",
+    options: [
+      { label: 'Bachay ko hai', specialty: 'Pediatrician' },
+      { label: 'Mujhe (adult) hai', specialty: 'General Physician' },
+    ],
+  },
 };
+
+// ---------------------------------------------------------------
+// Fuzzy matching: tolerates small typos (e.g. "toth" instead of
+// "tooth") using Levenshtein edit-distance. We only fuzzy-match
+// words of reasonable length, and only allow 1 edit for short
+// words / 2 edits for longer ones, so it doesn't get trigger-happy
+// and misfire on unrelated short words.
+function levenshtein(a, b) {
+  const dp = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] = a[i - 1] === b[j - 1]
+        ? dp[i - 1][j - 1]
+        : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+// Short English words where we know the common typo pattern and there's
+// no realistic confusion with a Roman Urdu term — safe to fuzzy-match
+// even though they're under the general 6-letter threshold.
+const SHORT_FUZZY_SAFE = new Set(['tooth', 'fever', 'cough', 'heart']);
+
+function fuzzyIncludes(text, keyword) {
+  if (text.includes(keyword)) return true;
+  // Fuzzy (typo-tolerant) matching is restricted to longer English-style
+  // words, plus a small curated safe-list of short ones. Short Roman Urdu
+  // terms like "dant", "dard", "pait" are too easily confused with each
+  // other at small edit distances, so those require an exact match.
+  if (keyword.length < 6 && !SHORT_FUZZY_SAFE.has(keyword)) return false;
+  const maxDistance = keyword.length <= 7 ? 1 : 2;
+  const words = text.split(/\s+/);
+  return words.some((word) => {
+    if (Math.abs(word.length - keyword.length) > maxDistance) return false;
+    return levenshtein(word, keyword) <= maxDistance;
+  });
+}
+
+// Detects every specialty that matches anything in the message, not
+// just the first one — so "fever and a bad cough" can surface both
+// General Physician-relevant and Pulmonologist-relevant guidance.
+function findAllSpecialties(text) {
+  const lower = text.toLowerCase();
+  const matched = new Set();
+  for (const rule of SPECIALTY_RULES) {
+    const hit = rule.keywords.some((kw) => fuzzyIncludes(lower, kw));
+    if (hit) matched.add(rule.specialty);
+  }
+  return Array.from(matched);
+}
 
 function findSpecialty(text) {
   const lower = text.toLowerCase();
-  for (const rule of SPECIALTY_RULES) {
-    if (rule.keywords.some((kw) => lower.includes(kw))) {
-      return rule.specialty;
-    }
+  const allMatches = findAllSpecialties(text);
+  if (allMatches.length > 0) {
+    return allMatches.length === 1 ? allMatches[0] : { multiple: allMatches };
   }
-  // Check if this is an ambiguous term we should ask a follow-up about,
-  // but only if nothing more specific already matched above.
+  // Check if this is an ambiguous term we should ask a follow-up about.
   for (const term of Object.keys(AMBIGUOUS_FOLLOWUPS)) {
-    if (lower.includes(term)) {
+    if (fuzzyIncludes(lower, term)) {
       return { followUp: AMBIGUOUS_FOLLOWUPS[term] };
     }
   }
   return 'General Physician'; // sensible default — GPs triage everything else
 }
+
 
 function escapeHtml(str) {
   return str.replace(/[&<>"']/g, (c) => ({
@@ -347,6 +414,22 @@ function showSpecialtyResult(specialty) {
     can help with. This is just a starting point, not a diagnosis — they'll be able to tell you what's actually going on.
     <br><br>
     <a href="find-doctors.html?specialty=${encodedSpecialty}" class="btn btn-primary btn-small">Find a ${escapeHtml(specialty)} near you</a>
+    <div class="disclaimer-line">If this feels urgent or severe, please contact emergency services instead of continuing here.</div>
+  `, 'guidance');
+}
+
+function showMultipleSpecialties(specialties) {
+  const linksHtml = specialties
+    .map((s) => `<a href="find-doctors.html?specialty=${encodeURIComponent(s)}" class="btn btn-primary btn-small" style="margin:4px 6px 4px 0;">Find a ${escapeHtml(s)}</a>`)
+    .join('');
+  addBubble(`
+    What you've described touches on a couple of areas. These specialists are commonly relevant:
+    <div style="margin:10px 0; display:flex; flex-wrap:wrap; gap:6px;">
+      ${specialties.map((s) => `<span class="specialty-name" style="font-size:15px; margin:0; padding:4px 12px; background:rgba(255,255,255,0.08); border-radius:100px; display:inline-block;">${escapeHtml(s)}</span>`).join('')}
+    </div>
+    This is just a starting point, not a diagnosis.
+    <br><br>
+    <div>${linksHtml}</div>
     <div class="disclaimer-line">If this feels urgent or severe, please contact emergency services instead of continuing here.</div>
   `, 'guidance');
 }
@@ -380,6 +463,8 @@ function handleSubmit() {
   setTimeout(() => {
     if (result && typeof result === 'object' && result.followUp) {
       showFollowUp(result.followUp);
+    } else if (result && typeof result === 'object' && result.multiple) {
+      showMultipleSpecialties(result.multiple);
     } else {
       showSpecialtyResult(result);
     }
