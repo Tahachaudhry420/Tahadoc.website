@@ -264,22 +264,57 @@ document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => revealObse
 // category. That's a deliberate safety boundary, not an oversight.
 // ---------------------------------------------------------------
 const SPECIALTY_RULES = [
-  { keywords: ['tooth', 'teeth', 'gum', 'dental', 'cavity'], specialty: 'Dentist' },
-  { keywords: ['skin', 'rash', 'acne', 'itch', 'mole', 'eczema'], specialty: 'Dermatologist' },
-  { keywords: ['child', 'kid', 'baby', 'infant', 'son', 'daughter'], specialty: 'Pediatrician' },
-  { keywords: ['anxious', 'anxiety', 'stress', 'depress', 'sad', 'panic', 'sleep problem', 'insomnia'], specialty: 'Psychiatrist' },
-  { keywords: ['pregnan', 'period', 'menstrual', 'gynae', 'women'], specialty: 'Gynecologist' },
-  { keywords: ['ear', 'nose', 'throat', 'sinus', 'sore throat', 'hearing'], specialty: 'ENT Specialist' },
-  { keywords: ['heart', 'chest pain', 'palpitation', 'blood pressure'], specialty: 'Cardiologist' },
-  { keywords: ['bone', 'joint', 'fracture', 'sprain', 'back pain', 'knee', 'shoulder'], specialty: 'Orthopedic' },
-  { keywords: ['eye', 'vision', 'blurry'], specialty: 'Ophthalmologist' },
+  { keywords: ['tooth', 'teeth', 'gum', 'dental', 'cavity', 'toothache', 'wisdom tooth'], specialty: 'Dentist' },
+  { keywords: ['skin', 'rash', 'acne', 'itch', 'mole', 'eczema', 'hives', 'psoriasis', 'hair loss', 'dandruff'], specialty: 'Dermatologist' },
+  { keywords: ['child', 'kid', 'baby', 'infant', 'son', 'daughter', 'toddler', 'newborn'], specialty: 'Pediatrician' },
+  { keywords: ['anxious', 'anxiety', 'stress', 'depress', 'sad', 'panic', 'sleep problem', 'insomnia', 'mood', 'overwhelmed', 'mental health'], specialty: 'Psychiatrist' },
+  { keywords: ['pregnan', 'period', 'menstrual', 'gynae', 'women', 'pcos', 'ovary', 'fertility'], specialty: 'Gynecologist' },
+  { keywords: ['ear', 'nose', 'throat', 'sinus', 'sore throat', 'hearing', 'tonsil', 'snoring', 'nosebleed'], specialty: 'ENT Specialist' },
+  { keywords: ['heart', 'palpitation', 'blood pressure', 'cholesterol', 'chest tightness'], specialty: 'Cardiologist' },
+  { keywords: ['bone', 'joint', 'fracture', 'sprain', 'knee', 'shoulder', 'arthritis', 'muscle pain'], specialty: 'Orthopedic' },
+  { keywords: ['eye', 'vision', 'blurry', 'eyesight', 'glasses', 'eye pain', 'red eye'], specialty: 'Ophthalmologist' },
+  { keywords: ['urin', 'bladder', 'kidney stone', 'prostate'], specialty: 'Urologist' },
+  { keywords: ['headache', 'migraine', 'dizziness', 'numbness', 'seizure', 'memory loss', 'tremor'], specialty: 'Neurologist' },
+  { keywords: ['stomach', 'nausea', 'vomit', 'diarrhea', 'constipation', 'acid reflux', 'bloating', 'abdominal'], specialty: 'Gastroenterologist' },
+  { keywords: ['breathing', 'shortness of breath', 'wheezing', 'asthma', 'persistent cough'], specialty: 'Pulmonologist' },
+  { keywords: ['thyroid', 'diabetes', 'blood sugar', 'weight gain', 'weight loss', 'hormone'], specialty: 'Endocrinologist' },
+  { keywords: ['allerg', 'hay fever', 'food sensitivity'], specialty: 'Allergist' },
 ];
+
+// Location/context follow-up: when a term is ambiguous on its own (like
+// generic "pain"), we ask one clarifying question instead of guessing —
+// this stays non-diagnostic, it only narrows down WHERE, not WHAT.
+const AMBIGUOUS_FOLLOWUPS = {
+  pain: {
+    question: "Got it — where is the pain mainly located?",
+    options: [
+      { label: 'Chest', specialty: 'Cardiologist' },
+      { label: 'Stomach/abdomen', specialty: 'Gastroenterologist' },
+      { label: 'Joint or muscle', specialty: 'Orthopedic' },
+      { label: 'Head', specialty: 'Neurologist' },
+    ],
+  },
+  fever: {
+    question: "Thanks — is this fever just for you, or is it your child?",
+    options: [
+      { label: "It's for my child", specialty: 'Pediatrician' },
+      { label: "It's for me (adult)", specialty: 'General Physician' },
+    ],
+  },
+};
 
 function findSpecialty(text) {
   const lower = text.toLowerCase();
   for (const rule of SPECIALTY_RULES) {
     if (rule.keywords.some((kw) => lower.includes(kw))) {
       return rule.specialty;
+    }
+  }
+  // Check if this is an ambiguous term we should ask a follow-up about,
+  // but only if nothing more specific already matched above.
+  for (const term of Object.keys(AMBIGUOUS_FOLLOWUPS)) {
+    if (lower.includes(term)) {
+      return { followUp: AMBIGUOUS_FOLLOWUPS[term] };
     }
   }
   return 'General Physician'; // sensible default — GPs triage everything else
@@ -301,6 +336,36 @@ function addBubble(html, className) {
   div.innerHTML = html;
   chatMessages.appendChild(div);
   chatMessages.scrollTop = chatMessages.scrollHeight;
+  return div;
+}
+
+function showSpecialtyResult(specialty) {
+  const encodedSpecialty = encodeURIComponent(specialty);
+  addBubble(`
+    Based on what you've described, this is often something a:
+    <div class="specialty-name">${escapeHtml(specialty)}</div>
+    can help with. This is just a starting point, not a diagnosis — they'll be able to tell you what's actually going on.
+    <br><br>
+    <a href="find-doctors.html?specialty=${encodedSpecialty}" class="btn btn-primary btn-small">Find a ${escapeHtml(specialty)} near you</a>
+    <div class="disclaimer-line">If this feels urgent or severe, please contact emergency services instead of continuing here.</div>
+  `, 'guidance');
+}
+
+function showFollowUp(followUp) {
+  const optionsHtml = followUp.options
+    .map((opt, i) => `<button class="quick-chip followup-option" data-specialty="${escapeHtml(opt.specialty)}" style="margin-top:8px; margin-right:8px;">${escapeHtml(opt.label)}</button>`)
+    .join('');
+  const bubble = addBubble(`
+    ${escapeHtml(followUp.question)}
+    <div style="margin-top:10px;">${optionsHtml}</div>
+  `, 'bot');
+
+  bubble.querySelectorAll('.followup-option').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      addBubble(escapeHtml(btn.textContent), 'user');
+      setTimeout(() => showSpecialtyResult(btn.dataset.specialty), 350);
+    });
+  });
 }
 
 function handleSubmit() {
@@ -310,18 +375,14 @@ function handleSubmit() {
   addBubble(escapeHtml(text), 'user');
   symptomInput.value = '';
 
-  const specialty = findSpecialty(text);
-  const encodedSpecialty = encodeURIComponent(specialty);
+  const result = findSpecialty(text);
 
   setTimeout(() => {
-    addBubble(`
-      Based on what you've described, this is often something a:
-      <div class="specialty-name">${escapeHtml(specialty)}</div>
-      can help with. This is just a starting point, not a diagnosis — they'll be able to tell you what's actually going on.
-      <br><br>
-      <a href="find-doctors.html?specialty=${encodedSpecialty}" class="btn btn-primary btn-small">Find a ${escapeHtml(specialty)} near you</a>
-      <div class="disclaimer-line">If this feels urgent or severe, please contact emergency services instead of continuing here.</div>
-    `, 'guidance');
+    if (result && typeof result === 'object' && result.followUp) {
+      showFollowUp(result.followUp);
+    } else {
+      showSpecialtyResult(result);
+    }
   }, 450);
 }
 
@@ -329,6 +390,7 @@ symptomSendBtn.addEventListener('click', handleSubmit);
 symptomInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') handleSubmit();
 });
+
 
 document.querySelectorAll('.quick-chip').forEach((chip) => {
   chip.addEventListener('click', () => {
